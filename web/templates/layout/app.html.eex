@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Hello G1!</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+  <header class="header">
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <ul class="nav navbar-nav navbar-right">
+          <%= if logged_in?(@conn) do %>
+            <li><p class="navbar-text">Logged in as <%= current_user(@conn).email %></p></li>
+            <li>
+            <%= link "Logout", to: session_path(@conn, :delete), method: :delete, class: "navbar-text" %>
+            </li>
+          <% else %>
+            <li><%= link "Login", to: "/login" %></li>
+            <li><%= link "Register", to: registration_path(@conn, :new) %></li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+  </div>
+
+  <main role="main">
+  <div class="container">
+    <%= render @view_module, @view_template, assigns %>
+  </div>
+  </main>
+
+</div> <!-- /container -->
+<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+</body>
+</html>
