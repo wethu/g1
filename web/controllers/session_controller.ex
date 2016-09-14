@@ -1,3 +1,4 @@
+require IEx
 defmodule G1.SessionController do
   use G1.Web, :controller
 
@@ -6,15 +7,15 @@ defmodule G1.SessionController do
   end
 
   def create(conn, %{"session" => session_params}) do
-    case G1.Session.login(session_params, G1.Repo) do
+    case G1.Session.login(session_params) do
       {:ok, user} ->
         conn
         |> put_session(:current_user, user.id)
-        |> put_flash(:info, "Logged In")
+        |> put_flash(:success, "Logged In")
         |> redirect(to: "/")
-      :error ->
+      false ->
         conn
-        |> put_flash(:info, "Bad password")
+        |> put_flash(:alert, "Invalid Email or Password")
         |> render("new.html")
     end
   end
