@@ -1,4 +1,3 @@
-require IEx
 defmodule G1.SessionController do
   use G1.Web, :controller
 
